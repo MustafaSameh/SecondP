@@ -1,0 +1,122 @@
+Q1: 
+    Query: 
+        "SELECT first_name , COUNT(book_id) AS Borrowing_count 
+        FROM members m 
+        JOIN checkouts ch 
+        ON m.member_id = ch.member_id 
+        GROUP BY first_name;"
+    Result: 
+        first_name	Borrowing_count
+        0	Adam	24
+        1	Ahmed	31
+        2	Ali	    1
+        3	Amir	1
+        4	Aya	    28
+        5	Bassel	11
+        6	Dina	16
+        7	Fares	13
+        8	Habiba	1
+        9	Hamza	3
+        10	Hassan	5
+        11	Jana	2
+        12	Karim	1
+        13	Layla	9
+        14	Lina	17
+        15	Malak	9
+        16	Menna	2
+        17	Mostafa	25
+        18	Nada	13
+        19	Nour	18
+        20	Rana	17
+        21	Reem	16
+        22	Retaj	9
+        23	Salma	1
+        24	Sara	16
+        25	Seif	14
+        26	Sherif	24
+        27	Tarek	7
+        28	Yassin	2
+        29	Youssef	26
+        30	Ziad	29
+
+Q2:
+   Query: 
+        "SELECT title , author 
+        FROM books 
+        WHERE author LIKE 'A%'"
+   Pattern:(A), First name starts with (A)
+   
+   Result:
+        
+            title	            author
+        0	The Silver Kite	    Amina Darwish
+        1	Desert Compass	    Amina Darwish
+        2	The Lantern Maker	Adel Roushdy
+        3	Rooftop Astronomers	Adel Roushdy
+        4	Letters to the Nile	Aya Hafez
+        5	The Paper Boat Club	Aya Hafez
+
+Q3:
+    Query:
+        """
+        SELECT title , COUNT(b.book_id) AS Number_of_times_books_were_borrowed
+        FROM books b 
+        JOIN checkouts ch ON 
+        b.book_id = ch.book_id 
+        GROUP BY title 
+        ORDER BY Number_of_times_books_were_borrowed  
+        DESC LIMIT 5;
+        """
+    Result:
+        title	            Borrowing_count
+        0	The Silver Kite	             57
+        1	Fossils and Fireflies	     55
+        2	Circuits for Beginners	     46
+        3	Kites Over Cairo	         38
+        4	Storms and Sailboats	     25
+
+Q4: 
+    Query:    
+        """
+        SELECT first_name , COUNT(book_id) AS Borrowing_count 
+        FROM members m 
+        JOIN checkouts ch 
+        ON m.member_id = ch.member_id 
+        GROUP BY first_name
+        ORDER BY Borrowing_count DESC 
+        LIMIT 10 ;
+        """
+    Result:
+        	first_name	Borrowing_count
+            0	Ahmed	            31
+            1	Ziad	            29
+            2	Aya	                28
+            3	Youssef	            26
+            4	Mostafa	            25
+            5	Sherif	            24
+            6	Adam	            24
+            7	Nour	            18
+            8	Rana	            17
+            9	Lina	            17
+
+Q5:
+    Query:
+        run("""
+        SELECT first_name , COUNT(book_id) AS Borrowing_count , neighborhood , checkout_date
+        FROM members m
+        JOIN checkouts ch 
+        ON m.member_id = ch.member_id 
+        WHERE neighborhood ='Maadi'
+        GROUP BY first_name
+        ORDER BY checkout_date DESC 
+        LIMIT 10 OFFSET 11
+        """)
+
+
+    Result: 
+            first_name	Borrowing_count	    neighborhood	checkout_date
+            0	Salma	              1	           Maadi	    2024-10-24
+            1	Youssef	              9	           Maadi	    2024-04-22
+            2	Dina	              7	           Maadi	    2024-04-15
+            3	Habiba	              1	           Maadi	    2024-03-06
+            4	Fares	              2	           Maadi	    2024-02-16
