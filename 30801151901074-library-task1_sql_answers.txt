@@ -1,4 +1,4 @@
-Q1: 
+Q1 How much is each member borrowing?: 
     Query: 
         "SELECT first_name , COUNT(book_id) AS Borrowing_count 
         FROM members m 
@@ -39,11 +39,11 @@ Q1:
         29	Youssef	26
         30	Ziad	29
 
-Q2:
+Q2 Which books match a chosen author pattern? :
    Query: 
         "SELECT title , author 
         FROM books 
-        WHERE author LIKE 'A%'"
+        WHERE author LIKE 'A%';"
    Pattern:(A), First name starts with (A)
    
    Result:
@@ -56,15 +56,15 @@ Q2:
         4	Letters to the Nile	Aya Hafez
         5	The Paper Boat Club	Aya Hafez
 
-Q3:
+Q3 What are the most popular books?:
     Query:
         """
-        SELECT title , COUNT(b.book_id) AS Number_of_times_books_were_borrowed
+        SELECT title , COUNT(b.book_id) AS Borrowing_count
         FROM books b 
         JOIN checkouts ch ON 
         b.book_id = ch.book_id 
         GROUP BY title 
-        ORDER BY Number_of_times_books_were_borrowed  
+        ORDER BY Borrowing_count  
         DESC LIMIT 5;
         """
     Result:
@@ -75,7 +75,7 @@ Q3:
         3	Kites Over Cairo	         38
         4	Storms and Sailboats	     25
 
-Q4: 
+Q4 Who are the most active readers?: 
     Query:    
         """
         SELECT first_name , COUNT(book_id) AS Borrowing_count 
@@ -99,7 +99,7 @@ Q4:
             8	Rana	            17
             9	Lina	            17
 
-Q5:
+Q5 What does a neighborhood's activity look like further back in time?:
     Query:
         run("""
         SELECT first_name , COUNT(book_id) AS Borrowing_count , neighborhood , checkout_date
@@ -120,3 +120,36 @@ Q5:
             2	Dina	              7	           Maadi	    2024-04-15
             3	Habiba	              1	           Maadi	    2024-03-06
             4	Fares	              2	           Maadi	    2024-02-16
+
+Data Gathering & Resources :
+    first step :
+        Combine the members and checkouts and count user borrowed books 
+        so we can know each user and his information and his checkouts and number of borrowed books 
+
+    second step:
+        combine the books table with the table that we've just made 
+        So we can know more information about the borrowed book       
+
+    third step : adding kickoffs to our latest combined data 
+                 So we have now all checkouts 
+
+API vs WEB Page in data Gathering:
+    API: 
+        in general API is much easier for gathering data and more proffessional way 
+        API is the waiter that you tell what you want and it serves it to you 
+
+    WEB Page :
+        Using WEB page is like entering the kitchen get what you want 
+        you're the waiter . you have to deal with html and tags and the quality of data 
+
+    relevant to the project : 
+        WEB(html):
+            Because it is formatted for human reading  
+            pd.read_html() returns a list of html elements
+            rather than a clean dataset. 
+            the column name were capitalized which I have to correct it .
+            requiring manual indexing ([0]) and header standardization before we could use the data. 
+        API:
+        Structured like our JSON file .
+        easier to handle . 
+        Ready to go . 
