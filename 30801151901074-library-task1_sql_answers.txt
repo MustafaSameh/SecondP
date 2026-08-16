@@ -2,44 +2,76 @@
 
 Q1 How much is each member borrowing?: 
     Query: 
-        "SELECT first_name , COUNT(book_id) AS Borrowing_count 
+        "SELECT first_name , COUNT(book_id) AS checkout_count 
         FROM members m 
         JOIN checkouts ch 
         ON m.member_id = ch.member_id 
-        GROUP BY first_name;"
+        GROUP BY member_id;"
     Result: 
-        first_name	Borrowing_count
-        0	Adam	24
-        1	Ahmed	31
-        2	Ali	    1
-        3	Amir	1
-        4	Aya	    28
-        5	Bassel	11
-        6	Dina	16
-        7	Fares	13
-        8	Habiba	1
-        9	Hamza	3
-        10	Hassan	5
-        11	Jana	2
-        12	Karim	1
-        13	Layla	9
-        14	Lina	17
-        15	Malak	9
-        16	Menna	2
-        17	Mostafa	25
-        18	Nada	13
-        19	Nour	18
-        20	Rana	17
-        21	Reem	16
-        22	Retaj	9
-        23	Salma	1
-        24	Sara	16
-        25	Seif	14
-        26	Sherif	24
-        27	Tarek	7
-        28	Yassin	2
-        29	Youssef	26
-        30	Ziad	29
+        	first_name	checkout_count
+            0	Salma	            1
+            1	Fares	            2
+            2	Bassel	            9
+            3	Youssef	            3
+            4	Layla	            1
+            5	Sherif	            3
+            6	Ziad	            19
+            7	Hassan	            1
+            8	Nour	            18
+            9	Menna	            2
+            10	Ziad	            2
+            11	Habiba	            1
+            12	Hamza	            3
+            13	Dina	            7
+            14	Adam	            2
+            15	Ahmed	            17
+            16	Mostafa	            3
+            17	Rana	            7
+            18	Youssef	            6
+            19	Hassan	            1
+            20	Youssef	            17
+            21	Nada	            3
+            22	Mostafa	            18
+            23	Hassan	            3
+            24	Reem	            16
+            25	Ali	                1           
+            26	Nada	            6
+            27	Aya	                25          
+            28	Karim	            1
+            29	Lina	            1
+            30	Retaj	            2
+            31	Nada	            2
+            32	Dina	            2
+            33	Nada	            2
+            34	Sherif	            21
+            35	Amir	            1
+            36	Sara	            16
+            37	Ahmed	            1
+            38	Fares	            11
+            39	Retaj	            1
+            40	Adam	            5
+            41	Retaj	            6
+            42	Mostafa	            2
+            43	Ahmed	            10
+            44	Lina	            3
+            45	Lina	            7
+            46	Layla	            2
+            47	Ziad	            8
+            48	Tarek	            7
+            49	Adam	            17
+            50	Aya	                3           
+            51	Layla	            6
+            52	Ahmed	            3
+            53	Jana	            2
+            54	Seif	            14
+            55	Yassin	            2
+            56	Mostafa	            2
+            57	Malak	            9
+            58	Dina	            7
+            59	Lina	            6
+            60	Rana	            10
+            61	Bassel	            2
+
 
 Q2 Which books match a chosen author pattern? :
    Query: 
@@ -61,16 +93,16 @@ Q2 Which books match a chosen author pattern? :
 Q3 What are the most popular books?:
     Query:
         """
-        SELECT title , COUNT(b.book_id) AS Borrowing_count
+        SELECT title , COUNT(b.book_id) AS checkout_count
         FROM books b 
         JOIN checkouts ch ON 
         b.book_id = ch.book_id 
         GROUP BY title 
-        ORDER BY Borrowing_count  
+        ORDER BY checkout_count  
         DESC LIMIT 5;
         """
     Result:
-        title	            Borrowing_count
+        title	            checkout_count
         0	The Silver Kite	             57
         1	Fossils and Fireflies	     55
         2	Circuits for Beginners	     46
@@ -80,48 +112,53 @@ Q3 What are the most popular books?:
 Q4 Who are the most active readers?: 
     Query:    
         """
-        SELECT first_name , COUNT(book_id) AS Borrowing_count 
+        SELECT first_name , COUNT(book_id) AS checkout_count 
         FROM members m 
         JOIN checkouts ch 
         ON m.member_id = ch.member_id 
-        GROUP BY first_name
-        ORDER BY Borrowing_count DESC 
+        GROUP BY m.member_id
+        ORDER BY checkout_count DESC 
         LIMIT 10 ;
         """
     Result:
-        	first_name	Borrowing_count
-            0	Ahmed	            31
-            1	Ziad	            29
-            2	Aya	                28
-            3	Youssef	            26
-            4	Mostafa	            25
-            5	Sherif	            24
-            6	Adam	            24
-            7	Nour	            18
-            8	Rana	            17
-            9	Lina	            17
+	first_name	checkout_count
+    0	Aya	                25
+    1	Sherif	            21
+    2	Ziad	            19
+    3	Mostafa	            18
+    4	Nour	            18
+    5	Adam	            17
+    6	Youssef	            17
+    7	Ahmed	            17
+    8	Sara	            16
+    9	Reem	            16
+
 
 Q5 What does a neighborhood's activity look like further back in time?:
     Query:
-        run("""
-        SELECT first_name , COUNT(book_id) AS Borrowing_count , neighborhood , checkout_date
-        FROM members m
-        JOIN checkouts ch 
-        ON m.member_id = ch.member_id 
-        WHERE neighborhood ='Maadi'
-        GROUP BY first_name
-        ORDER BY checkout_date DESC 
-        LIMIT 10 OFFSET 11
-        """)
+            run("""
+            SELECT first_name , neighborhood , checkout_id ,checkout_date
+            FROM members m
+            JOIN checkouts ch 
+            ON m.member_id = ch.member_id 
+            WHERE neighborhood ='Maadi'
+            ORDER BY checkout_date DESC 
+            LIMIT 10 OFFSET 10
+            """)
 
 
     Result: 
-            first_name	Borrowing_count	    neighborhood	checkout_date
-            0	Salma	              1	           Maadi	    2024-10-24
-            1	Youssef	              9	           Maadi	    2024-04-22
-            2	Dina	              7	           Maadi	    2024-04-15
-            3	Habiba	              1	           Maadi	    2024-03-06
-            4	Fares	              2	           Maadi	    2024-02-16
+        first_name	neighborhood	checkout_id	checkout_date
+        0	Bassel	       Maadi	       9103	   2025-09-04
+        1	Adam	       Maadi	       9081	   2025-08-25
+        2	Ziad	       Maadi	       9001	   2025-08-23
+        3	Bassel	       Maadi	       9050	   2025-08-21
+        4	Ahmed	       Maadi	       9085	   2025-08-19
+        5	Hamza	       Maadi	       9055	   2025-08-08
+        6	Ahmed	       Maadi	       9023	   2025-08-04
+        7	Ziad	       Maadi	       9004	   2025-07-27
+        8	Bassel	       Maadi	       9051	   2025-07-22
+        9	Hassan	       Maadi	       9010	   2025-07-22
 
 Data Gathering & Resources :
     first step :

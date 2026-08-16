@@ -1,4 +1,4 @@
-member_id,first_name,last_name,grade,neighborhood,membership_status,join_date,checkout_id,book_id,checkout_date,return_date,Borrowing_count,genre,pages,publication_year,publisher
+member_id,first_name,last_name,grade,neighborhood,membership_status,join_date,checkout_id,book_id,checkout_date,return_date,checkout_count,genre,pages,publication_year,publisher
 1001,Salma,Ibrahim,8.0,Maadi,Active,2023-04-05,9025.0,525.0,2024-10-24,2024-11-07,1,Adventure,297.0,2015.0,Oasis Books
 1002,Fares,Saleh,9.0,Maadi,Active,,9013.0,501.0,2024-02-16,2024-02-29,3,Adventure,128.0,2017.0,Nile Press
 1002,Fares,Saleh,9.0,Maadi,Active,,9095.0,507.0,2024-06-25,2024-07-07,3,Science,160.0,2024.0,Nile Press
